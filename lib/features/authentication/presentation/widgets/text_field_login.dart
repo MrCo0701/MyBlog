@@ -19,7 +19,11 @@ class TextFieldLogin extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black54),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w400,
+            color: Colors.black54,
+          ),
         ),
         SizedBox(height: 10),
         Focus(

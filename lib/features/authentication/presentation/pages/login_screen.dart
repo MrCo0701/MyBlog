@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_blog/features/authentication/presentation/pages/signup_screen.dart';
 import 'package:my_blog/features/authentication/presentation/widgets/button_login_custom.dart';
 import 'package:my_blog/features/authentication/presentation/widgets/text_field_login.dart';
 import 'package:my_blog/features/authentication/presentation/widgets/text_with_line.dart';
@@ -113,7 +114,12 @@ class LoginScreen extends StatelessWidget {
                         text: 'Sign Up',
                         color: Colors.black45,
                         size: 15,
-                        onPress: () {},
+                        onPress: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SignupScreen(),
+                          ),
+                        ),
                       ),
                     ],
                   ),
