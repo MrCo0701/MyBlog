@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_blog/features/authentication/presentation/pages/signup_screen.dart';
 import 'package:my_blog/features/authentication/presentation/widgets/button_login_custom.dart';
 import 'package:my_blog/features/authentication/presentation/widgets/text_field_login.dart';
 import 'package:my_blog/features/authentication/presentation/widgets/text_with_line.dart';
+import 'package:my_blog/features/main/presentation/pages/main_container.dart';
+
+import '../di/signup_di.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -74,7 +78,13 @@ class LoginScreen extends StatelessWidget {
                           onPress: () {},
                         ),
                         SizedBox(height: 30),
-                        ButtonLoginCustom(text: 'Sign In', onPress: () {}),
+                        ButtonLoginCustom(
+                          text: 'Sign In',
+                          onPress: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => MainContainer()),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -117,7 +127,10 @@ class LoginScreen extends StatelessWidget {
                         onPress: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const SignupScreen(),
+                            builder: (_) => BlocProvider(
+                              create: (_) => signUpProvider(),
+                              child: SignupScreen(),
+                            ),
                           ),
                         ),
                       ),

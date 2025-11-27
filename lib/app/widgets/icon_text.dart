@@ -1,0 +1,25 @@
+import 'package:flutter/material.dart';
+
+class IconText extends StatelessWidget {
+  const IconText({super.key, required this.icon, required this.text});
+
+  final IconData icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, color: Colors.grey.shade700),
+        SizedBox(width: 10),
+        Text(
+          text,
+          style: TextStyle(
+            color: Colors.grey.shade600,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
+  }
+}
