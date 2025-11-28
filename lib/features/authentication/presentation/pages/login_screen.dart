@@ -63,12 +63,14 @@ class LoginScreen extends StatelessWidget {
                           hintText: 'Enter your email here',
                           title: 'Email/Username',
                           controller: emailController,
+                          type: FieldType.email,
                         ),
                         SizedBox(height: 20),
                         TextFieldLogin(
                           hintText: 'Enter password',
                           title: 'Password',
                           controller: emailController,
+                          type: FieldType.password,
                         ),
                         SizedBox(height: 20),
                         ButtonTextWithLine(

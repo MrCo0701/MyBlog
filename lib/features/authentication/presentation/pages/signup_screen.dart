@@ -4,6 +4,7 @@ import 'package:my_blog/features/authentication/domain/entity/user.dart';
 import 'package:my_blog/features/authentication/presentation/cubits/signup/signup_cubit.dart';
 import 'package:my_blog/features/authentication/presentation/cubits/signup/singup_state.dart';
 import 'package:my_blog/features/authentication/presentation/di/signup_di.dart';
+import 'package:my_blog/features/authentication/presentation/pages/login_screen.dart';
 import '../../../main/presentation/pages/main_container.dart';
 import '../widgets/button_login_custom.dart';
 import '../widgets/text_field_login.dart';
@@ -14,6 +15,7 @@ class SignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     final emailController = TextEditingController();
     final fullNameController = TextEditingController();
     final passwordController = TextEditingController();
@@ -42,7 +44,7 @@ class SignupScreen extends StatelessWidget {
                         ),
                         SizedBox(width: 16),
                         Text(
-                          'Is Logging...',
+                          'SignUp...',
                           style: TextStyle(color: Colors.white),
                         ),
                       ],
@@ -58,7 +60,7 @@ class SignupScreen extends StatelessWidget {
                     behavior: SnackBarBehavior.floating,
                     backgroundColor: Colors.green,
                     content: Text(
-                      'Login Success!',
+                      'SignUp Success!',
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     duration: Duration(seconds: 2),
@@ -70,7 +72,7 @@ class SignupScreen extends StatelessWidget {
                 if (context.mounted) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (_) => const MainContainer()),
+                    MaterialPageRoute(builder: (_) => const LoginScreen()),
                   );
                 }
               },
@@ -82,7 +84,7 @@ class SignupScreen extends StatelessWidget {
                     behavior: SnackBarBehavior.floating,
                     backgroundColor: Colors.red,
                     content: Text(
-                      'login Fail!',
+                      'SignUp Fail!',
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     duration: Duration(seconds: 2),
@@ -134,6 +136,7 @@ class SignupScreen extends StatelessWidget {
 
                         // * Form
                         Form(
+                          key: _formKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -141,36 +144,44 @@ class SignupScreen extends StatelessWidget {
                                 hintText: 'Enter your email here',
                                 title: 'Email',
                                 controller: emailController,
+                                type: FieldType.email,
                               ),
                               SizedBox(height: 20),
                               TextFieldLogin(
                                 hintText: 'Enter your full name here',
                                 title: 'User\'s full name',
                                 controller: fullNameController,
+                                type: FieldType.fullName,
                               ),
                               SizedBox(height: 20),
                               TextFieldLogin(
                                 hintText: 'Enter password',
                                 title: 'Password',
                                 controller: passwordController,
+                                type: FieldType.password,
                               ),
                               SizedBox(height: 20),
                               TextFieldLogin(
                                 hintText: 'Re-enter password',
                                 title: 'Confirm Password',
                                 controller: passAgainController,
+                                type: FieldType.confirmPassword,
+                                compareController: passwordController,
                               ),
                               SizedBox(height: 30),
                               ButtonLoginCustom(
                                 text: 'Sign Up',
-                                onPress: () =>
+                                onPress: () {
+                                  if (_formKey.currentState!.validate()) {
                                     context.read<SignUpCubit>().signUp(
                                       UserEntity(
                                         fullName: fullNameController.text,
                                         email: emailController.text,
                                         password: passwordController.text,
                                       ),
-                                    ),
+                                    );
+                                  }
+                                },
                               ),
                             ],
                           ),

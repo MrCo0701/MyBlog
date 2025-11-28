@@ -19,17 +19,17 @@ class WritingScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFieldLogin(
-                title: 'Post Title',
-                hintText: 'Enter your title here',
-                controller: textController,
-              ),
-              SizedBox(height: 20),
-              TextFieldLogin(
-                title: 'Post Tag',
-                hintText: 'Tag your post. Maximum 5 tags, at least 1 tag',
-                controller: textController,
-              ),
+              // TextFieldLogin(
+              //   title: 'Post Title',
+              //   hintText: 'Enter your title here',
+              //   controller: textController,
+              // ),
+              // SizedBox(height: 20),
+              // TextFieldLogin(
+              //   title: 'Post Tag',
+              //   hintText: 'Tag your post. Maximum 5 tags, at least 1 tag',
+              //   controller: textController,
+              // ),
               SizedBox(height: 20),
               Text(
                 'Post Content',
