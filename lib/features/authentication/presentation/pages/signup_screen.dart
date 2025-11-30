@@ -76,16 +76,16 @@ class SignupScreen extends StatelessWidget {
                   );
                 }
               },
-              error: (err) {
+              error: (e) {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
+                  SnackBar(
                     behavior: SnackBarBehavior.floating,
                     backgroundColor: Colors.red,
                     content: Text(
-                      'SignUp Fail!',
                       style: TextStyle(color: Colors.white, fontSize: 16),
+                      e,
                     ),
                     duration: Duration(seconds: 2),
                   ),

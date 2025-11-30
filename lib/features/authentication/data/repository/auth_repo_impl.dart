@@ -5,11 +5,13 @@ import 'package:my_blog/features/authentication/data/models/user_model.dart';
 import 'package:my_blog/features/authentication/domain/entity/user.dart';
 import 'package:my_blog/features/authentication/domain/repository/auth_repo.dart';
 
+import '../../../../core/exceptions/app_exception.dart';
+
 class AuthRepositoryImpl implements AuthRepository {
   final dio = Dio();
 
   @override
-  Future<void> signUp(UserEntity user) async {
+  Future<bool> signUp(UserEntity user) async {
     final url = Env.baseUrl + ApiConstants.register;
     final userModel = UserModel.fromEntity(user);
 
@@ -20,8 +22,25 @@ class AuthRepositoryImpl implements AuthRepository {
         options: Options(headers: {'Content-Type': 'application/json'}),
       );
       print(response.data);
+      return true;
     } on DioException catch (e) {
-      print('==> Error: $e');
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.sendTimeout) {
+        throw NetworkException();
+      }
+
+      final statusCode = e.response?.statusCode;
+
+      if (statusCode == 409) {
+        throw ConflictException();
+      }
+
+      if (statusCode == 500) {
+        throw ServerException();
+      }
+
+      throw UnknownException();
     }
   }
 }

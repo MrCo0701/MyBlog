@@ -7,11 +7,6 @@ class AuthUseCase {
   AuthUseCase(this.repository);
 
   Future<bool> signUp(UserEntity user) async {
-    try {
-      await repository.signUp(user);
-      return true;
-    } catch (e) {
-      return false;
-    }
+    return repository.signUp(user);
   }
 }
