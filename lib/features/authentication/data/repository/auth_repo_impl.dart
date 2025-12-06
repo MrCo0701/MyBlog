@@ -55,7 +55,7 @@ class AuthRepositoryImpl implements AuthRepository {
         options: Options(
           headers: {
             'Content-Type': 'application/json',
-            "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9",
+            // "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9",
           },
         ),
       );
