@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:my_blog/features/blog_writting/presentation/pages/writing_screen.dart';
-import 'package:my_blog/features/home/presentation/pages/test.dart';
+import 'package:flutter_quill/quill_delta.dart';
+import 'package:my_blog/core/utils/delta_converter.dart';
+import 'package:my_blog/features/home/data/repository/home_repo_impl.dart';
+import 'package:my_blog/features/home/domain/di/home_di.dart';
+import 'package:my_blog/features/home/presentation/cubits/home_cubit.dart';
+import 'package:my_blog/features/home/presentation/cubits/home_state.dart';
 
+import '../../../blog_writting/presentation/pages/writing_screen.dart';
 import '../widgets/post_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,8 +32,6 @@ class _HomeScreen extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final quillController = QuillController.basic();
-
     return Scaffold(
       backgroundColor: Colors.white,
 
@@ -56,47 +60,36 @@ class _HomeScreen extends State<HomeScreen>
             child: TabBarView(
               controller: _tabController,
               children: tabs.map((t) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      PostCard(
-                        author: "Duy Hảo",
-                        time: "43 minutes ago",
-                        title: "Giới thiệu về Linux kernel development",
-                        description:
-                            "Linux ra đời năm 1991 va nhieu lan xuat hien voi tu cach ",
-                        tags: ["linux_and_oop", "linux_versioning"],
-                        image: 'assets/fake_data/image_1.png',
-                        onPressMore: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => WritingScreen()),
-                        ),
-                      ),
-                      PostCard(
-                        author: "Duy Hảo",
-                        time: "2 minutes ago",
-                        title: "Học Flutter thế nào cho chuẩn",
-                        description:
-                            "Flutter là framework đa nền tảng khá mạnh hiện nay, nhưng việc tiếp thu va học như thế nao",
-                        tags: ["flutter", "firebase", "cross-platform"],
-                        image: 'assets/fake_data/image_1.png',
-                        onPressMore: () {},
-                      ),
-                      PostCard(
-                        author: "Tan Lam",
-                        time: "30 minutes ago",
-                        title: "Giới thiệu về Linux kernel development",
-                        description:
-                            "Linux ra đời năm 1991 va nhieu lan xuat hien voi tu cach ",
-                        tags: [
-                          "johnmadieu",
-                          "linux_and_oop",
-                          "linux_versioning",
-                        ],
-                        image: 'assets/fake_data/image_2.png',
-                        onPressMore: () {},
-                      ),
-                    ],
+                return BlocProvider(
+                  create: (_) => homeProvider()..showAllBlog(),
+                  child: SingleChildScrollView(
+                    child: BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        return Column(
+                          children: state.allBlogs.map((blog) {
+                            return PostCard(
+                              author: blog.author.fullName,
+                              time: "43 minutes ago",
+                              title: blog.title,
+                              description: deltaToPlainText(blog.content),
+                              tags: blog.tags,
+                              image: 'assets/fake_data/image_1.png',
+                              onPressMore: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => WritingScreen(),
+                                  ),
+                                );
+                              },
+                              viewCount: blog.viewCount,
+                              readCount: 0,
+                              commentCount: 0,
+                            );
+                          }).toList(),
+                        );
+                      },
+                    ),
                   ),
                 );
               }).toList(),

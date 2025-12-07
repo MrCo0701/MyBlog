@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:my_blog/features/detail/presentation/pages/detail_screen.dart';
+import 'package:my_blog/features/home/data/models/tag/tag_model.dart';
 import 'package:my_blog/features/home/presentation/widgets/footer_card.dart';
 
 class PostCard extends StatelessWidget {
@@ -9,8 +12,11 @@ class PostCard extends StatelessWidget {
   final String title;
   final String description;
   final String image;
-  final List<String> tags;
+  final List<TagModel> tags;
   final VoidCallback onPressMore;
+  final int viewCount;
+  final int commentCount;
+  final int readCount;
 
   const PostCard({
     super.key,
@@ -21,6 +27,9 @@ class PostCard extends StatelessWidget {
     required this.tags,
     required this.image,
     required this.onPressMore,
+    required this.viewCount,
+    required this.commentCount,
+    required this.readCount,
   });
 
   @override
@@ -114,7 +123,7 @@ class PostCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    t,
+                    t.name,
                     style: const TextStyle(
                       color: Color(0xFF7C4DFF),
                       fontSize: 13,
@@ -128,7 +137,11 @@ class PostCard extends StatelessWidget {
             const SizedBox(height: 12),
 
             // footer icons
-            FooterCard(),
+            FooterCard(
+              viewCount: viewCount,
+              commentCount: commentCount,
+              readCount: readCount,
+            ),
           ],
         ),
       ),

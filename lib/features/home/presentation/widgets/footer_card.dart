@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class FooterCard extends StatelessWidget {
-  const FooterCard({super.key});
+  const FooterCard({
+    super.key,
+    required this.viewCount,
+    required this.commentCount,
+    required this.readCount,
+  });
+
+  final int viewCount;
+  final int commentCount;
+  final int readCount;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +23,7 @@ class FooterCard extends StatelessWidget {
               Icon(Iconsax.eye_copy, color: Colors.grey.shade600),
               SizedBox(width: 10),
               Text(
-                '1',
+                viewCount.toString(),
                 style: TextStyle(
                   color: Colors.grey.shade600,
                   fontWeight: FontWeight.bold,
@@ -50,7 +59,7 @@ class FooterCard extends StatelessWidget {
               Icon(Iconsax.message_2_copy, color: Colors.grey.shade600),
               SizedBox(width: 10),
               Text(
-                '0',
+                commentCount.toString(),
                 style: TextStyle(
                   color: Colors.grey.shade600,
                   fontWeight: FontWeight.bold,
@@ -68,7 +77,7 @@ class FooterCard extends StatelessWidget {
               Icon(Iconsax.bookmark_copy, color: Colors.grey.shade600),
               SizedBox(width: 10),
               Text(
-                '0',
+                readCount.toString(),
                 style: TextStyle(
                   color: Colors.grey.shade600,
                   fontWeight: FontWeight.bold,
