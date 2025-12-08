@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_blog/features/detail/presentation/pages/detail_screen.dart';
 import 'package:my_blog/features/home/domain/entity/blog_entity.dart';
+import 'package:my_blog/features/home/presentation/pages/tag_screen.dart';
 import 'package:my_blog/features/home/presentation/widgets/footer_card.dart';
 
 import '../../../../core/utils/delta_converter.dart';
@@ -96,22 +96,28 @@ class PostCard extends StatelessWidget {
             Wrap(
               spacing: 8,
               children: blog.tags.map((t) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(vertical: 3),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
+                return GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => TagScreen(tag: t.slug)),
                   ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEDE7FF),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    t.name,
-                    style: const TextStyle(
-                      color: Color(0xFF7C4DFF),
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEDE7FF),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      t.name,
+                      style: const TextStyle(
+                        color: Color(0xFF7C4DFF),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 );

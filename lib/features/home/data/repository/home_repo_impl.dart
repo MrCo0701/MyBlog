@@ -46,4 +46,25 @@ class HomeRepositoryImpl implements HomeRepository {
       return [];
     }
   }
+
+  @override
+  Future<List<BlogEntity>> searchBlogByTag(String tag) async {
+    final url = Env.baseUrl + ApiConstants.postBlog;
+
+    try {
+      final res = await dio.get(
+        url,
+        queryParameters: {"page": 1, "limit": 20, "tagSlug": tag},
+      );
+
+      final List<dynamic> data = res.data["data"]["data"];
+
+      final blogs = data.map((e) => BlogModel.fromJson(e).toEntity()).toList();
+
+      return blogs;
+    } catch (e) {
+      print("==> Error showAllBlog: $e");
+      return [];
+    }
+  }
 }

@@ -13,4 +13,8 @@ class HomeUseCase {
   Future<List<BlogEntity>> searchBlog(String titleSearch) async {
     return repository.searchBlog(titleSearch);
   }
+
+  Future<List<BlogEntity>> searchBlogByTag(String tagLug) async {
+    return repository.searchBlogByTag(tagLug);
+  }
 }

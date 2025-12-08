@@ -13,7 +13,7 @@ class SignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final emailController = TextEditingController();
     final fullNameController = TextEditingController();
     final passwordController = TextEditingController();
@@ -134,7 +134,7 @@ class SignupScreen extends StatelessWidget {
 
                         // * Form
                         Form(
-                          key: _formKey,
+                          key: formKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -170,7 +170,7 @@ class SignupScreen extends StatelessWidget {
                               ButtonLoginCustom(
                                 text: 'Sign Up',
                                 onPress: () {
-                                  if (_formKey.currentState!.validate()) {
+                                  if (formKey.currentState!.validate()) {
                                     context.read<SignUpCubit>().signUp(
                                       UserEntity(
                                         fullName: fullNameController.text,

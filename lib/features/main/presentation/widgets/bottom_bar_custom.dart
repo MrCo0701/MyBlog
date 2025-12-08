@@ -39,7 +39,7 @@ class BottomBarCustom extends StatelessWidget {
                   size: isSelected ? 30 : 24,
                   color: isSelected ? Colors.blue : Colors.grey,
                 ),
-                const SizedBox(height: 6), // <-- chỉnh khoảng cách icon – text
+                const SizedBox(height: 6),
                 Text(
                   ["Home", "Blog", "Me"][i],
                   style: TextStyle(
