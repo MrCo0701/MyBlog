@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:my_blog/features/home/domain/di/home_di.dart';
 import 'package:my_blog/features/home/presentation/pages/home_screen.dart';
+import 'package:my_blog/features/home/presentation/pages/search_screen.dart';
 import 'package:my_blog/features/main/presentation/cubit/navigation_cubit.dart';
 import 'package:my_blog/features/main/presentation/cubit/navigation_state.dart';
 
@@ -36,10 +38,21 @@ class MainContainer extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     children: [
-                      Icon(
-                        Iconsax.search_normal_copy,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                      IconButton(
+                        icon: Icon(
+                          Iconsax.search_normal_copy,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BlocProvider(
+                              create: (_) => homeProvider(),
+                              child: SearchScreen(),
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(width: 20),
                       Icon(
@@ -82,10 +95,6 @@ class MainContainer extends StatelessWidget {
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.bookOpen),
           label: 'Posts',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Iconsax.video_play_copy),
-          label: 'Videos',
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.circleQuestion),

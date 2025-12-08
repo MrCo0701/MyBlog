@@ -11,12 +11,16 @@ class BlogEntity {
   final List<TagModel> tags;
   final int readTime;
   final int viewCount;
+  final int totalUpvotes;
+  final bool isUpvoted;
   final String? createdAt;
   final AuthorEntity author;
 
   BlogEntity({
     required this.id,
     required this.title,
+    required this.isUpvoted,
+    required this.totalUpvotes,
     required this.tags,
     required this.content,
     required this.published,

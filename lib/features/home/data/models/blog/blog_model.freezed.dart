@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BlogModel {
 
- String? get id; String? get title; List<DeltaOpModel> get content; bool get published; List<TagModel> get tags; int get readTime; int get viewCount; String? get createdAt; AuthorModel get author;
+ String? get id; String? get title; List<DeltaOpModel> get content; bool get published; List<TagModel> get tags; int get readTime; int get viewCount; bool get isUpvoted; int get totalUpvotes; String? get createdAt; AuthorModel get author;
 /// Create a copy of BlogModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $BlogModelCopyWith<BlogModel> get copyWith => _$BlogModelCopyWithImpl<BlogModel>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BlogModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&const DeepCollectionEquality().equals(other.content, content)&&(identical(other.published, published) || other.published == published)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.readTime, readTime) || other.readTime == readTime)&&(identical(other.viewCount, viewCount) || other.viewCount == viewCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.author, author) || other.author == author));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BlogModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&const DeepCollectionEquality().equals(other.content, content)&&(identical(other.published, published) || other.published == published)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.readTime, readTime) || other.readTime == readTime)&&(identical(other.viewCount, viewCount) || other.viewCount == viewCount)&&(identical(other.isUpvoted, isUpvoted) || other.isUpvoted == isUpvoted)&&(identical(other.totalUpvotes, totalUpvotes) || other.totalUpvotes == totalUpvotes)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.author, author) || other.author == author));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,const DeepCollectionEquality().hash(content),published,const DeepCollectionEquality().hash(tags),readTime,viewCount,createdAt,author);
+int get hashCode => Object.hash(runtimeType,id,title,const DeepCollectionEquality().hash(content),published,const DeepCollectionEquality().hash(tags),readTime,viewCount,isUpvoted,totalUpvotes,createdAt,author);
 
 @override
 String toString() {
-  return 'BlogModel(id: $id, title: $title, content: $content, published: $published, tags: $tags, readTime: $readTime, viewCount: $viewCount, createdAt: $createdAt, author: $author)';
+  return 'BlogModel(id: $id, title: $title, content: $content, published: $published, tags: $tags, readTime: $readTime, viewCount: $viewCount, isUpvoted: $isUpvoted, totalUpvotes: $totalUpvotes, createdAt: $createdAt, author: $author)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $BlogModelCopyWith<$Res>  {
   factory $BlogModelCopyWith(BlogModel value, $Res Function(BlogModel) _then) = _$BlogModelCopyWithImpl;
 @useResult
 $Res call({
- String? id, String? title, List<DeltaOpModel> content, bool published, List<TagModel> tags, int readTime, int viewCount, String? createdAt, AuthorModel author
+ String? id, String? title, List<DeltaOpModel> content, bool published, List<TagModel> tags, int readTime, int viewCount, bool isUpvoted, int totalUpvotes, String? createdAt, AuthorModel author
 });
 
 
@@ -65,7 +65,7 @@ class _$BlogModelCopyWithImpl<$Res>
 
 /// Create a copy of BlogModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? title = freezed,Object? content = null,Object? published = null,Object? tags = null,Object? readTime = null,Object? viewCount = null,Object? createdAt = freezed,Object? author = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? title = freezed,Object? content = null,Object? published = null,Object? tags = null,Object? readTime = null,Object? viewCount = null,Object? isUpvoted = null,Object? totalUpvotes = null,Object? createdAt = freezed,Object? author = null,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -74,6 +74,8 @@ as List<DeltaOpModel>,published: null == published ? _self.published : published
 as bool,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
 as List<TagModel>,readTime: null == readTime ? _self.readTime : readTime // ignore: cast_nullable_to_non_nullable
 as int,viewCount: null == viewCount ? _self.viewCount : viewCount // ignore: cast_nullable_to_non_nullable
+as int,isUpvoted: null == isUpvoted ? _self.isUpvoted : isUpvoted // ignore: cast_nullable_to_non_nullable
+as bool,totalUpvotes: null == totalUpvotes ? _self.totalUpvotes : totalUpvotes // ignore: cast_nullable_to_non_nullable
 as int,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String?,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
 as AuthorModel,
@@ -161,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? title,  List<DeltaOpModel> content,  bool published,  List<TagModel> tags,  int readTime,  int viewCount,  String? createdAt,  AuthorModel author)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? title,  List<DeltaOpModel> content,  bool published,  List<TagModel> tags,  int readTime,  int viewCount,  bool isUpvoted,  int totalUpvotes,  String? createdAt,  AuthorModel author)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BlogModel() when $default != null:
-return $default(_that.id,_that.title,_that.content,_that.published,_that.tags,_that.readTime,_that.viewCount,_that.createdAt,_that.author);case _:
+return $default(_that.id,_that.title,_that.content,_that.published,_that.tags,_that.readTime,_that.viewCount,_that.isUpvoted,_that.totalUpvotes,_that.createdAt,_that.author);case _:
   return orElse();
 
 }
@@ -182,10 +184,10 @@ return $default(_that.id,_that.title,_that.content,_that.published,_that.tags,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? title,  List<DeltaOpModel> content,  bool published,  List<TagModel> tags,  int readTime,  int viewCount,  String? createdAt,  AuthorModel author)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? title,  List<DeltaOpModel> content,  bool published,  List<TagModel> tags,  int readTime,  int viewCount,  bool isUpvoted,  int totalUpvotes,  String? createdAt,  AuthorModel author)  $default,) {final _that = this;
 switch (_that) {
 case _BlogModel():
-return $default(_that.id,_that.title,_that.content,_that.published,_that.tags,_that.readTime,_that.viewCount,_that.createdAt,_that.author);case _:
+return $default(_that.id,_that.title,_that.content,_that.published,_that.tags,_that.readTime,_that.viewCount,_that.isUpvoted,_that.totalUpvotes,_that.createdAt,_that.author);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -202,10 +204,10 @@ return $default(_that.id,_that.title,_that.content,_that.published,_that.tags,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? title,  List<DeltaOpModel> content,  bool published,  List<TagModel> tags,  int readTime,  int viewCount,  String? createdAt,  AuthorModel author)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? title,  List<DeltaOpModel> content,  bool published,  List<TagModel> tags,  int readTime,  int viewCount,  bool isUpvoted,  int totalUpvotes,  String? createdAt,  AuthorModel author)?  $default,) {final _that = this;
 switch (_that) {
 case _BlogModel() when $default != null:
-return $default(_that.id,_that.title,_that.content,_that.published,_that.tags,_that.readTime,_that.viewCount,_that.createdAt,_that.author);case _:
+return $default(_that.id,_that.title,_that.content,_that.published,_that.tags,_that.readTime,_that.viewCount,_that.isUpvoted,_that.totalUpvotes,_that.createdAt,_that.author);case _:
   return null;
 
 }
@@ -217,7 +219,7 @@ return $default(_that.id,_that.title,_that.content,_that.published,_that.tags,_t
 @JsonSerializable()
 
 class _BlogModel extends BlogModel {
-  const _BlogModel({required this.id, required this.title, required final  List<DeltaOpModel> content, required this.published, required final  List<TagModel> tags, required this.readTime, required this.viewCount, required this.createdAt, required this.author}): _content = content,_tags = tags,super._();
+  const _BlogModel({required this.id, required this.title, required final  List<DeltaOpModel> content, required this.published, required final  List<TagModel> tags, required this.readTime, required this.viewCount, required this.isUpvoted, required this.totalUpvotes, required this.createdAt, required this.author}): _content = content,_tags = tags,super._();
   factory _BlogModel.fromJson(Map<String, dynamic> json) => _$BlogModelFromJson(json);
 
 @override final  String? id;
@@ -239,6 +241,8 @@ class _BlogModel extends BlogModel {
 
 @override final  int readTime;
 @override final  int viewCount;
+@override final  bool isUpvoted;
+@override final  int totalUpvotes;
 @override final  String? createdAt;
 @override final  AuthorModel author;
 
@@ -255,16 +259,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BlogModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&const DeepCollectionEquality().equals(other._content, _content)&&(identical(other.published, published) || other.published == published)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.readTime, readTime) || other.readTime == readTime)&&(identical(other.viewCount, viewCount) || other.viewCount == viewCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.author, author) || other.author == author));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BlogModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&const DeepCollectionEquality().equals(other._content, _content)&&(identical(other.published, published) || other.published == published)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.readTime, readTime) || other.readTime == readTime)&&(identical(other.viewCount, viewCount) || other.viewCount == viewCount)&&(identical(other.isUpvoted, isUpvoted) || other.isUpvoted == isUpvoted)&&(identical(other.totalUpvotes, totalUpvotes) || other.totalUpvotes == totalUpvotes)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.author, author) || other.author == author));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,const DeepCollectionEquality().hash(_content),published,const DeepCollectionEquality().hash(_tags),readTime,viewCount,createdAt,author);
+int get hashCode => Object.hash(runtimeType,id,title,const DeepCollectionEquality().hash(_content),published,const DeepCollectionEquality().hash(_tags),readTime,viewCount,isUpvoted,totalUpvotes,createdAt,author);
 
 @override
 String toString() {
-  return 'BlogModel(id: $id, title: $title, content: $content, published: $published, tags: $tags, readTime: $readTime, viewCount: $viewCount, createdAt: $createdAt, author: $author)';
+  return 'BlogModel(id: $id, title: $title, content: $content, published: $published, tags: $tags, readTime: $readTime, viewCount: $viewCount, isUpvoted: $isUpvoted, totalUpvotes: $totalUpvotes, createdAt: $createdAt, author: $author)';
 }
 
 
@@ -275,7 +279,7 @@ abstract mixin class _$BlogModelCopyWith<$Res> implements $BlogModelCopyWith<$Re
   factory _$BlogModelCopyWith(_BlogModel value, $Res Function(_BlogModel) _then) = __$BlogModelCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, String? title, List<DeltaOpModel> content, bool published, List<TagModel> tags, int readTime, int viewCount, String? createdAt, AuthorModel author
+ String? id, String? title, List<DeltaOpModel> content, bool published, List<TagModel> tags, int readTime, int viewCount, bool isUpvoted, int totalUpvotes, String? createdAt, AuthorModel author
 });
 
 
@@ -292,7 +296,7 @@ class __$BlogModelCopyWithImpl<$Res>
 
 /// Create a copy of BlogModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? title = freezed,Object? content = null,Object? published = null,Object? tags = null,Object? readTime = null,Object? viewCount = null,Object? createdAt = freezed,Object? author = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? title = freezed,Object? content = null,Object? published = null,Object? tags = null,Object? readTime = null,Object? viewCount = null,Object? isUpvoted = null,Object? totalUpvotes = null,Object? createdAt = freezed,Object? author = null,}) {
   return _then(_BlogModel(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -301,6 +305,8 @@ as List<DeltaOpModel>,published: null == published ? _self.published : published
 as bool,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
 as List<TagModel>,readTime: null == readTime ? _self.readTime : readTime // ignore: cast_nullable_to_non_nullable
 as int,viewCount: null == viewCount ? _self.viewCount : viewCount // ignore: cast_nullable_to_non_nullable
+as int,isUpvoted: null == isUpvoted ? _self.isUpvoted : isUpvoted // ignore: cast_nullable_to_non_nullable
+as bool,totalUpvotes: null == totalUpvotes ? _self.totalUpvotes : totalUpvotes // ignore: cast_nullable_to_non_nullable
 as int,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as String?,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
 as AuthorModel,

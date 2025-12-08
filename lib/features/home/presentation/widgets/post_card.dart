@@ -1,44 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/quill_delta.dart';
-import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:my_blog/features/detail/presentation/pages/detail_screen.dart';
-import 'package:my_blog/features/home/data/models/tag/tag_model.dart';
+import 'package:my_blog/features/home/domain/entity/blog_entity.dart';
 import 'package:my_blog/features/home/presentation/widgets/footer_card.dart';
 
+import '../../../../core/utils/delta_converter.dart';
+
 class PostCard extends StatelessWidget {
-  final String author;
-  final String time;
-  final String title;
-  final String description;
+  final BlogEntity blog;
   final String image;
-  final List<TagModel> tags;
   final VoidCallback onPressMore;
-  final int viewCount;
-  final int commentCount;
-  final int readCount;
+  final VoidCallback onPressed;
 
   const PostCard({
     super.key,
-    required this.author,
-    required this.time,
-    required this.title,
-    required this.description,
-    required this.tags,
+    required this.blog,
     required this.image,
     required this.onPressMore,
-    required this.viewCount,
-    required this.commentCount,
-    required this.readCount,
+    required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: () => Navigator.push(
-      //   context,
-      //   MaterialPageRoute(builder: (_) => DetailScreen(controller: ,)),
-      // ),
+      onTap: onPressed,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -63,14 +47,14 @@ class PostCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      author,
+                      blog.author.fullName,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                       ),
                     ),
                     Text(
-                      time,
+                      blog.createdAt.toString(),
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 13,
@@ -90,16 +74,16 @@ class PostCard extends StatelessWidget {
 
             // Title
             Text(
-              title,
+              blog.title,
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 8),
 
             // Description
-            description != ''
+            deltaToPlainText(blog.content) != ''
                 ? Text(
-                    description,
+                    deltaToPlainText(blog.content),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: Colors.grey.shade700, height: 1.3),
@@ -111,7 +95,7 @@ class PostCard extends StatelessWidget {
             // Tags
             Wrap(
               spacing: 8,
-              children: tags.map((t) {
+              children: blog.tags.map((t) {
                 return Container(
                   margin: const EdgeInsets.symmetric(vertical: 3),
                   padding: const EdgeInsets.symmetric(
@@ -138,9 +122,9 @@ class PostCard extends StatelessWidget {
 
             // footer icons
             FooterCard(
-              viewCount: viewCount,
-              commentCount: commentCount,
-              readCount: readCount,
+              viewCount: blog.viewCount,
+              commentCount: 0,
+              readCount: blog.readTime,
             ),
           ],
         ),

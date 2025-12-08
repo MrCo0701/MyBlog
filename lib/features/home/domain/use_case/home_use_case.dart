@@ -6,7 +6,11 @@ class HomeUseCase {
 
   HomeUseCase({required this.repository});
 
-  Future<List<BlogEntity>> getAllBlog () async {
+  Future<List<BlogEntity>> getAllBlog() async {
     return repository.showAllBlog();
+  }
+
+  Future<List<BlogEntity>> searchBlog(String titleSearch) async {
+    return repository.searchBlog(titleSearch);
   }
 }

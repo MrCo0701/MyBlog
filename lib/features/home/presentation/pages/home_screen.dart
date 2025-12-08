@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/quill_delta.dart';
-import 'package:my_blog/core/utils/delta_converter.dart';
-import 'package:my_blog/features/home/data/repository/home_repo_impl.dart';
+import 'package:my_blog/features/detail/presentation/pages/detail_screen.dart';
 import 'package:my_blog/features/home/domain/di/home_di.dart';
 import 'package:my_blog/features/home/presentation/cubits/home_cubit.dart';
 import 'package:my_blog/features/home/presentation/cubits/home_state.dart';
@@ -66,13 +63,10 @@ class _HomeScreen extends State<HomeScreen>
                     child: BlocBuilder<HomeCubit, HomeState>(
                       builder: (context, state) {
                         return Column(
+                          spacing: 5,
                           children: state.allBlogs.map((blog) {
                             return PostCard(
-                              author: blog.author.fullName,
-                              time: "43 minutes ago",
-                              title: blog.title,
-                              description: deltaToPlainText(blog.content),
-                              tags: blog.tags,
+                              blog: blog,
                               image: 'assets/fake_data/image_1.png',
                               onPressMore: () {
                                 Navigator.push(
@@ -82,9 +76,12 @@ class _HomeScreen extends State<HomeScreen>
                                   ),
                                 );
                               },
-                              viewCount: blog.viewCount,
-                              readCount: 0,
-                              commentCount: 0,
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => DetailScreen(blog: blog),
+                                ),
+                              ),
                             );
                           }).toList(),
                         );

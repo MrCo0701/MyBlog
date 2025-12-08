@@ -18,6 +18,8 @@ _BlogModel _$BlogModelFromJson(Map<String, dynamic> json) => _BlogModel(
       .toList(),
   readTime: (json['readTime'] as num).toInt(),
   viewCount: (json['viewCount'] as num).toInt(),
+  isUpvoted: json['isUpvoted'] as bool,
+  totalUpvotes: (json['totalUpvotes'] as num).toInt(),
   createdAt: json['createdAt'] as String?,
   author: AuthorModel.fromJson(json['author'] as Map<String, dynamic>),
 );
@@ -31,6 +33,8 @@ Map<String, dynamic> _$BlogModelToJson(_BlogModel instance) =>
       'tags': instance.tags,
       'readTime': instance.readTime,
       'viewCount': instance.viewCount,
+      'isUpvoted': instance.isUpvoted,
+      'totalUpvotes': instance.totalUpvotes,
       'createdAt': instance.createdAt,
       'author': instance.author,
     };

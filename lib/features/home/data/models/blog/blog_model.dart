@@ -21,6 +21,8 @@ abstract class BlogModel with _$BlogModel {
     required List<TagModel> tags,
     required int readTime,
     required int viewCount,
+    required bool isUpvoted,
+    required int totalUpvotes,
     required String? createdAt,
     required AuthorModel author,
   }) = _BlogModel;
@@ -32,6 +34,8 @@ abstract class BlogModel with _$BlogModel {
     return BlogEntity(
       id: id ?? '',
       title: title ?? 'No Title',
+      isUpvoted: isUpvoted,
+      totalUpvotes: totalUpvotes,
       content: content,
       published: published,
       tags: tags,

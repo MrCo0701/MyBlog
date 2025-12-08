@@ -1,16 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:my_blog/core/utils/delta_converter.dart';
+import 'package:my_blog/features/detail/data/repository/detail_repositoy_impl.dart';
+import 'package:my_blog/features/detail/presentation/cubits/detail_cubit.dart';
+import 'package:my_blog/features/detail/presentation/cubits/detail_state.dart';
+import 'package:my_blog/features/detail/presentation/di/detail_di.dart';
 import 'package:my_blog/features/detail/presentation/widgets/information_detail.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:my_blog/features/home/domain/entity/blog_entity.dart';
+
+import '../widgets/comment_item.dart';
+import '../widgets/comment_text_field.dart';
+import '../widgets/up_vote.dart';
 
 class DetailScreen extends StatelessWidget {
-  const DetailScreen({super.key, required this.controller});
+  const DetailScreen({super.key, required this.blog});
 
-  final QuillController controller;
+  final BlogEntity blog;
 
   @override
   Widget build(BuildContext context) {
+    final controller = QuillController(
+      document: deltaToDocument(blog.content),
+      selection: const TextSelection.collapsed(offset: 0),
+    );
+
+    final commentController = TextEditingController();
+
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         actions: [
@@ -28,9 +48,10 @@ class DetailScreen extends StatelessWidget {
           child: Column(
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Flutter: Nen tang lap trinh da nen tang toi uu nhat hien nay voi nhieu cong cu ho tro',
+                    blog.title,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -53,7 +74,7 @@ class DetailScreen extends StatelessWidget {
                           ),
                           SizedBox(width: 10),
                           Text(
-                            'Duy Hao',
+                            blog.author.fullName,
                             style: TextStyle(
                               color: Colors.blueAccent.shade700,
                               fontWeight: FontWeight.bold,
@@ -95,9 +116,9 @@ class DetailScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   InformationDetail(
-                    time: '23 Nov 2025',
-                    views: 23,
-                    timeRead: 46,
+                    time: formatDate(blog.createdAt.toString()),
+                    views: blog.viewCount,
+                    timeRead: blog.readTime,
                   ),
 
                   SizedBox(height: 20),
@@ -108,11 +129,93 @@ class DetailScreen extends StatelessWidget {
                   ),
                 ],
               ),
+
               SizedBox(height: 20),
+              //*Quill
               QuillEditor.basic(
                 controller: controller,
                 focusNode: FocusNode(),
                 scrollController: ScrollController(),
+              ),
+
+              SizedBox(height: 20),
+              //* Tags
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Wrap(
+                    spacing: 8,
+                    children: blog.tags.map((t) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 3),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFEDE7FF),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          t.name,
+                          style: const TextStyle(
+                            color: Color(0xFF7C4DFF),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+
+                  SizedBox(height: 20),
+                  BlocProvider(
+                    create: (_) => detailProvider()..isUpVote(blog.id),
+                    child: BlocBuilder<DetailCubit, DetailState>(
+                      builder: (context, state) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ActionBar(
+                              isUpvote: state.isUpVoted,
+                              vote: state.totalUpVotes,
+                              upVoteAction: () =>
+                                  context.read<DetailCubit>().upVote(blog.id),
+                              downVoteAction: () => {},
+                            ),
+                            const SizedBox(height: 20),
+                            InputCustom(
+                              controller: commentController,
+                              onPressed: () {
+                                DetailRepositoryImpl().createComment(
+                                  'test',
+                                  blog.id,
+                                );
+                              },
+                              hintText: 'Write a comment',
+                              icon: Iconsax.send_1,
+                            ),
+                            const SizedBox(height: 20),
+                            const Text(
+                              "Comments",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            CommentItem(
+                              avatarUrl: "https://i.pravatar.cc/150?img=3",
+                              name: "Thanh Thái",
+                              content: "Nice. Sớm ra phần tiếp theo bác nhé !!",
+                              vote: 0,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -120,4 +223,10 @@ class DetailScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+String formatDate(String isoString) {
+  final dateTime = DateTime.parse(isoString).toLocal();
+
+  return DateFormat('dd MMM yyyy').format(dateTime);
 }
