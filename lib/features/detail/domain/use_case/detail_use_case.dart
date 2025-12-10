@@ -18,4 +18,16 @@ class DetailUseCase {
   Future<List<CommentEntity>> getAllComments(String idPost) async {
     return repository.showAllComments(idPost);
   }
+
+  Future<bool> deleteComment(String idComment) async {
+    return repository.deleteComment(idComment);
+  }
+
+  Future<bool> updateComment(
+    String idComment,
+    String content,
+    String postId,
+  ) async {
+    return repository.updateComment(idComment, content, postId);
+  }
 }

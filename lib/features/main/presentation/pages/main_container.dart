@@ -55,7 +55,6 @@ class MainContainer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 20),
                       IconButton(
                         icon: Icon(
                           Iconsax.notification_copy,
@@ -72,7 +71,7 @@ class MainContainer extends StatelessWidget {
               ],
             ),
             body: _buildBody(state),
-            bottomNavigationBar: _buildBottomNavigation(context, state),
+            // bottomNavigationBar: _buildBottomNavigation(context, state),
           );
         },
       ),

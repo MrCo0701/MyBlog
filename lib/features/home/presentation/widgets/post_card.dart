@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_blog/features/detail/presentation/cubits/detail_cubit.dart';
+import 'package:my_blog/features/detail/presentation/cubits/detail_state.dart';
+import 'package:my_blog/features/detail/presentation/di/detail_di.dart';
 import 'package:my_blog/features/home/domain/entity/blog_entity.dart';
 import 'package:my_blog/features/home/presentation/pages/tag_screen.dart';
 import 'package:my_blog/features/home/presentation/widgets/footer_card.dart';
@@ -127,10 +131,17 @@ class PostCard extends StatelessWidget {
             const SizedBox(height: 12),
 
             // footer icons
-            FooterCard(
-              viewCount: blog.viewCount,
-              commentCount: 0,
-              readCount: blog.readTime,
+            BlocProvider(
+              create: (_) => detailProvider()..getAllComments(blog.id),
+              child: BlocBuilder<DetailCubit, DetailState>(
+                builder: (context, state) {
+                  return FooterCard(
+                    viewCount: blog.viewCount,
+                    commentCount: state.listComments.length,
+                    readCount: blog.readTime,
+                  );
+                },
+              ),
             ),
           ],
         ),

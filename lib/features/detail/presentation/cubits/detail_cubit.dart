@@ -41,4 +41,22 @@ class DetailCubit extends Cubit<DetailState> {
 
     emit(state.copyWith(listComments: listComments, idUser: idUser ?? ''));
   }
+
+  Future<void> deleteComment(String idComment, String idPost) async {
+    await useCase.deleteComment(idComment);
+    final listComments = await useCase.getAllComments(idPost);
+
+    emit(state.copyWith(listComments: listComments));
+  }
+
+  Future<void> updateComment(
+    String idComment,
+    String content,
+    String idPost,
+  ) async {
+    await useCase.updateComment(idComment, content, idPost);
+    final listComments = await useCase.getAllComments(idPost);
+
+    emit(state.copyWith(listComments: listComments));
+  }
 }

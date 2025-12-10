@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:my_blog/app/widgets/custom_snack_bar.dart';
 import 'package:my_blog/core/utils/delta_converter.dart';
 import 'package:my_blog/features/detail/data/repository/detail_repositoy_impl.dart';
 import 'package:my_blog/features/detail/presentation/cubits/detail_cubit.dart';
@@ -16,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/comment_item.dart';
 import '../widgets/comment_text_field.dart';
 import '../widgets/up_vote.dart';
+import '../widgets/update_comment_dialog.dart';
 
 class DetailScreen extends StatelessWidget {
   const DetailScreen({super.key, required this.blog});
@@ -218,39 +220,74 @@ class DetailScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            Column(
-                              children: state.listComments
-                                  .map(
-                                    (comment) => Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(bottom: 10),
-                                          child: CommentItem(
-                                            idUser: state.idUser,
-                                            comment: comment,
-                                            onDelete: () =>
-                                                showDeleteCommentDialog(
-                                                  context,
-                                                  onConfirm: () {},
+                            state.listComments.isEmpty
+                                ? Center(child: Text('Comment is Empty'))
+                                : Column(
+                                    children: state.listComments
+                                        .map(
+                                          (comment) => Column(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  bottom: 10,
                                                 ),
-                                            onEdit: () {},
+                                                child: CommentItem(
+                                                  idUser: state.idUser,
+                                                  comment: comment,
+                                                  onDelete: () =>
+                                                      showDeleteCommentDialog(
+                                                        context,
+                                                        onConfirm: () async {
+                                                          context
+                                                              .read<
+                                                                DetailCubit
+                                                              >()
+                                                              .deleteComment(
+                                                                comment.id,
+                                                                blog.id,
+                                                              );
+                                                          AppSnackBar.success(
+                                                            context,
+                                                            'Delete Success',
+                                                          );
+                                                        },
+                                                      ),
+                                                  onEdit: () {
+                                                    showUpdateCommentDialog(
+                                                      context: context,
+                                                      oldContent:
+                                                          comment.content,
+                                                      onUpdate: (newContent) {
+                                                        context
+                                                            .read<DetailCubit>()
+                                                            .updateComment(
+                                                              comment.id,
+                                                              newContent,
+                                                              blog.id,
+                                                            );
+                                                        AppSnackBar.success(
+                                                          context,
+                                                          'Update Success',
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.symmetric(
+                                                  vertical: 10,
+                                                ),
+                                                width: double.infinity,
+                                                height: 1,
+                                                color: Colors.black12
+                                                    .withOpacity(0.1),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.symmetric(
-                                            vertical: 10,
-                                          ),
-                                          width: double.infinity,
-                                          height: 1,
-                                          color: Colors.black12.withOpacity(
-                                            0.1,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
+                                        )
+                                        .toList(),
+                                  ),
                           ],
                         );
                       },

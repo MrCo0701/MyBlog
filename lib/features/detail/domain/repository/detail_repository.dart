@@ -7,4 +7,8 @@ abstract class DetailRepository {
   Future<void> createComment(String comment, String idPost);
 
   Future<List<CommentEntity>> showAllComments(String idPost);
+
+  Future<bool> deleteComment(String idComment);
+
+  Future<bool> updateComment(String idComment, String content, String postId);
 }

@@ -18,6 +18,8 @@ class CommentItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final avtUrl = comment.user.avatarUrl;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -25,7 +27,9 @@ class CommentItem extends StatelessWidget {
           child: Row(
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(comment.user.avatarUrl ?? ''),
+                backgroundImage: avtUrl == '' || avtUrl == null
+                    ? AssetImage('assets/fake_data/user_image.png')
+                    : NetworkImage(avtUrl),
                 radius: 18,
               ),
               const SizedBox(width: 8),

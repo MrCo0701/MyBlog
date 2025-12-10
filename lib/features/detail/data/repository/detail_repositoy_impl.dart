@@ -86,4 +86,55 @@ class DetailRepositoryImpl implements DetailRepository {
       return [];
     }
   }
+
+  @override
+  Future<bool> deleteComment(String idComment) async {
+    final url = "${Env.baseUrl}${ApiConstants.comment}/$idComment";
+    final token = await TokenStorage.getAccessToken();
+
+    try {
+      final response = await dio.delete(
+        url,
+        queryParameters: {"id": idComment},
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      return true;
+    } catch (e) {
+      print('==> Error to delete comment: $e');
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> updateComment(String idComment, String content, String postId) async {
+    final url = "${Env.baseUrl}${ApiConstants.comment}/$idComment";
+    final token = await TokenStorage.getAccessToken();
+
+    try {
+      final response = await dio.patch(
+        url,
+        data: {
+          "content": content,
+        },
+        queryParameters: {"id": idComment},
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      return true;
+    } catch (e) {
+      print('==> Error to update comment: $e');
+      return false;
+    }
+  }
 }
