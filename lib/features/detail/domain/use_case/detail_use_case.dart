@@ -1,3 +1,4 @@
+import 'package:my_blog/features/detail/domain/entity/comment_entity.dart';
 import 'package:my_blog/features/detail/domain/entity/up_vote_entity.dart';
 import 'package:my_blog/features/detail/domain/repository/detail_repository.dart';
 
@@ -8,5 +9,13 @@ class DetailUseCase {
 
   Future<UpVoteEntity> upVote(String idBlog) async {
     return repository.upVote(idBlog);
+  }
+
+  Future<void> createComment(String comment, String idPost) async {
+    return repository.createComment(comment, idPost);
+  }
+
+  Future<List<CommentEntity>> getAllComments(String idPost) async {
+    return repository.showAllComments(idPost);
   }
 }

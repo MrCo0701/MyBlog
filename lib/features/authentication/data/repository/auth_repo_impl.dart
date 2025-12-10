@@ -5,6 +5,7 @@ import 'package:my_blog/core/storage/token_storage.dart';
 import 'package:my_blog/features/authentication/data/models/user_model.dart';
 import 'package:my_blog/features/authentication/domain/entity/user.dart';
 import 'package:my_blog/features/authentication/domain/repository/auth_repo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/exceptions/app_exception.dart';
 
@@ -59,6 +60,11 @@ class AuthRepositoryImpl implements AuthRepository {
           },
         ),
       );
+
+      final prefs = await SharedPreferences.getInstance();
+      final idUser = response.data['data']['user']['id'];
+      print('==> $idUser');
+      await prefs.setString('idUser', idUser);
 
       final accessToken = response.data['data']['accessToken'];
       final refreshToken = response.data['data']['refreshToken'];

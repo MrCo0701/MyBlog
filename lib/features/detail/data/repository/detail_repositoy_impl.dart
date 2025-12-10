@@ -2,6 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:my_blog/core/config/env.dart';
 import 'package:my_blog/core/network/api_constants.dart';
 import 'package:my_blog/core/storage/token_storage.dart';
+import 'package:my_blog/features/detail/data/mapper/comment_mapper.dart';
+import 'package:my_blog/features/detail/data/models/comment/comment_model.dart';
+import 'package:my_blog/features/detail/domain/entity/comment_entity.dart';
 import 'package:my_blog/features/detail/domain/entity/up_vote_entity.dart';
 import 'package:my_blog/features/detail/domain/repository/detail_repository.dart';
 
@@ -44,12 +47,10 @@ class DetailRepositoryImpl implements DetailRepository {
     final token = await TokenStorage.getAccessToken();
     final url = Env.baseUrl + ApiConstants.comment;
 
-    print('==> ID BLOG: $idPost');
-
     try {
       final response = await dio.post(
         url,
-        data: {"content": comment, "postId": idPost, "parentId": null},
+        data: {"content": comment, "postId": idPost},
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -61,6 +62,28 @@ class DetailRepositoryImpl implements DetailRepository {
       print(response.data);
     } catch (e) {
       print('==> Error to comment: $e');
+    }
+  }
+
+  @override
+  Future<List<CommentEntity>> showAllComments(String idPost) async {
+    final url = Env.baseUrl + ApiConstants.comment;
+
+    try {
+      final response = await dio.get(
+        url,
+        queryParameters: {"page": 1, "limit": 20, "postId": idPost},
+      );
+
+      final List<dynamic> data = response.data['data']['data'];
+      final comments = data
+          .map((e) => CommentModel.fromJson(e).toEntity())
+          .toList();
+
+      return comments;
+    } catch (e) {
+      print('==> Error to get comments: $e');
+      return [];
     }
   }
 }

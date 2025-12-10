@@ -1,47 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:my_blog/features/detail/domain/entity/comment_entity.dart';
 
 class CommentItem extends StatelessWidget {
-  final String avatarUrl;
-  final String name;
-  final String content;
-  final int vote;
+  final String idUser;
+  final CommentEntity comment;
+  final VoidCallback onDelete;
+  final VoidCallback onEdit;
 
   const CommentItem({
-    required this.avatarUrl,
-    required this.name,
-    required this.content,
-    required this.vote,
+    super.key,
+    required this.idUser,
+    required this.comment,
+    required this.onDelete,
+    required this.onEdit,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        CircleAvatar(backgroundImage: NetworkImage(avatarUrl), radius: 18),
-        const SizedBox(width: 8),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: [
-              Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text(content),
-              const SizedBox(height: 6),
-              Row(
-                children: [
-                  const Icon(Icons.arrow_upward, size: 16),
-                  const SizedBox(width: 4),
-                  Text(vote.toString()),
-                  const SizedBox(width: 6),
-                  const Icon(Icons.arrow_downward, size: 16),
-                  const SizedBox(width: 12),
-                  const Icon(Icons.reply, size: 16),
-                ],
+              CircleAvatar(
+                backgroundImage: NetworkImage(comment.user.avatarUrl ?? ''),
+                radius: 18,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      comment.user.fullName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      comment.content,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         ),
+        idUser == comment.user.id
+            ? Row(
+                children: [
+                  IconButton(
+                    onPressed: onEdit,
+                    icon: Icon(Iconsax.edit_2_copy),
+                  ),
+                  IconButton(
+                    onPressed: onDelete,
+                    icon: Icon(Iconsax.trash_copy),
+                  ),
+                ],
+              )
+            : SizedBox(),
       ],
     );
   }

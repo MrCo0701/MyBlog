@@ -15,8 +15,9 @@ class HomeRepositoryImpl implements HomeRepository {
     try {
       final res = await dio.get(url, queryParameters: {"page": 1, "limit": 20});
 
-      final List<dynamic> data = res.data["data"]["data"];
+      print('==> Point 1');
 
+      final List<dynamic> data = res.data["data"]["data"];
       final blogs = data.map((e) => BlogModel.fromJson(e).toEntity()).toList();
 
       return blogs;
@@ -56,7 +57,6 @@ class HomeRepositoryImpl implements HomeRepository {
         url,
         queryParameters: {"page": 1, "limit": 20, "tagSlug": tag},
       );
-
       final List<dynamic> data = res.data["data"]["data"];
 
       final blogs = data.map((e) => BlogModel.fromJson(e).toEntity()).toList();

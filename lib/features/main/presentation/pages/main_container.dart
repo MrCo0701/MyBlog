@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:my_blog/features/blog_writting/presentation/pages/writing_screen.dart';
 import 'package:my_blog/features/home/domain/di/home_di.dart';
 import 'package:my_blog/features/home/presentation/pages/home_screen.dart';
 import 'package:my_blog/features/home/presentation/pages/search_screen.dart';
@@ -55,9 +56,15 @@ class MainContainer extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 20),
-                      Icon(
-                        Iconsax.notification_copy,
-                        fontWeight: FontWeight.bold,
+                      IconButton(
+                        icon: Icon(
+                          Iconsax.notification_copy,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => WritingScreen()),
+                        ),
                       ),
                     ],
                   ),

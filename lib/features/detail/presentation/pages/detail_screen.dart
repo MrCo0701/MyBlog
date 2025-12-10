@@ -7,9 +7,11 @@ import 'package:my_blog/features/detail/data/repository/detail_repositoy_impl.da
 import 'package:my_blog/features/detail/presentation/cubits/detail_cubit.dart';
 import 'package:my_blog/features/detail/presentation/cubits/detail_state.dart';
 import 'package:my_blog/features/detail/presentation/di/detail_di.dart';
+import 'package:my_blog/features/detail/presentation/widgets/dia_log_delete_comment.dart';
 import 'package:my_blog/features/detail/presentation/widgets/information_detail.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:my_blog/features/home/domain/entity/blog_entity.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/comment_item.dart';
 import '../widgets/comment_text_field.dart';
@@ -36,7 +38,10 @@ class DetailScreen extends StatelessWidget {
         actions: [
           Padding(
             padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
-            child: Icon(Icons.share_rounded),
+            child: IconButton(
+              icon: Icon(Icons.share_rounded),
+              onPressed: () => DetailRepositoryImpl().showAllComments(blog.id),
+            ),
           ),
         ],
       ),
@@ -170,7 +175,9 @@ class DetailScreen extends StatelessWidget {
 
                   SizedBox(height: 20),
                   BlocProvider(
-                    create: (_) => detailProvider()..isUpVote(blog.id),
+                    create: (_) => detailProvider()
+                      ..isUpVote(blog.id)
+                      ..getAllComments(blog.id),
                     child: BlocBuilder<DetailCubit, DetailState>(
                       builder: (context, state) {
                         return Column(
@@ -187,13 +194,20 @@ class DetailScreen extends StatelessWidget {
                             InputCustom(
                               controller: commentController,
                               onPressed: () {
-                                DetailRepositoryImpl().createComment(
-                                  'test',
+                                context.read<DetailCubit>().createComment(
+                                  commentController.text,
                                   blog.id,
                                 );
+                                commentController.text = '';
                               },
                               hintText: 'Write a comment',
                               icon: Iconsax.send_1,
+                            ),
+                            const SizedBox(height: 20),
+                            Container(
+                              width: double.infinity,
+                              color: Colors.black26,
+                              height: 1,
                             ),
                             const SizedBox(height: 20),
                             const Text(
@@ -204,11 +218,38 @@ class DetailScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            CommentItem(
-                              avatarUrl: "https://i.pravatar.cc/150?img=3",
-                              name: "Thanh Thái",
-                              content: "Nice. Sớm ra phần tiếp theo bác nhé !!",
-                              vote: 0,
+                            Column(
+                              children: state.listComments
+                                  .map(
+                                    (comment) => Column(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(bottom: 10),
+                                          child: CommentItem(
+                                            idUser: state.idUser,
+                                            comment: comment,
+                                            onDelete: () =>
+                                                showDeleteCommentDialog(
+                                                  context,
+                                                  onConfirm: () {},
+                                                ),
+                                            onEdit: () {},
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.symmetric(
+                                            vertical: 10,
+                                          ),
+                                          width: double.infinity,
+                                          height: 1,
+                                          color: Colors.black12.withOpacity(
+                                            0.1,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                  .toList(),
                             ),
                           ],
                         );

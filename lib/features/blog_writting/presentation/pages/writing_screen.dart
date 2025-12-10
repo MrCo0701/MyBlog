@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +24,6 @@ class WritingScreen extends StatelessWidget {
     final titleController = TextEditingController();
     final tagController = TextEditingController();
     final quillController = QuillController.basic();
-    List<String> tags = [];
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -152,7 +150,6 @@ class WritingScreen extends StatelessWidget {
                                   acceptAction: (value) {
                                     context.read<TagCubit>().addTag(value);
                                     tagController.text = '';
-                                    tags = state;
                                   },
                                   removeTag: (value) =>
                                       context.read<TagCubit>().removeTag(value),
@@ -333,27 +330,33 @@ class WritingScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: 20),
-                            ButtonLoginCustom(
-                              text: 'Publish Post',
-                              onPress: () {
-                                final content = quillController.document
-                                    .toDelta()
-                                    .toJson();
+                            BlocBuilder<TagCubit, List<String>>(
+                              builder: (context, state) {
+                                return ButtonLoginCustom(
+                                  text: 'Publish Post',
+                                  onPress: () {
+                                    final content = quillController.document
+                                        .toDelta()
+                                        .toJson();
 
-                                final post = PostEntity(
-                                  title: titleController.text,
-                                  contentType: "QUILL_DELTA",
-                                  content: content,
-                                  description: 'something',
-                                  thumbnail:
-                                      'https://example.com/images/clean-arch-banner.jpg',
-                                  seriesId: 0,
-                                  published: true,
-                                  readTime: 5,
-                                  tags: tags,
+                                    final post = PostEntity(
+                                      title: titleController.text,
+                                      contentType: "QUILL_DELTA",
+                                      content: content,
+                                      description: 'something',
+                                      thumbnail:
+                                          'https://example.com/images/clean-arch-banner.jpg',
+                                      seriesId: 0,
+                                      published: true,
+                                      readTime: 5,
+                                      tags: state,
+                                    );
+
+                                    context.read<WritingCubit>().uploadBlog(
+                                      post,
+                                    );
+                                  },
                                 );
-
-                                context.read<WritingCubit>().uploadBlog(post);
                               },
                             ),
                           ],
