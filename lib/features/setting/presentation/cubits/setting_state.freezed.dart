@@ -209,7 +209,7 @@ return $default(_that.userInfo,_that.fileImage,_that.blogs,_that.isSettingSucces
 
 
 class _SettingState implements SettingState {
-   _SettingState({required this.userInfo, required this.fileImage, required final  List<BlogEntity> blogs, this.isSettingSuccess = false}): _blogs = blogs;
+   _SettingState({required this.userInfo, required this.fileImage, required final  List<BlogEntity> blogs, required this.isSettingSuccess}): _blogs = blogs;
   
 
 @override final  UserInfoEntity userInfo;
@@ -221,7 +221,7 @@ class _SettingState implements SettingState {
   return EqualUnmodifiableListView(_blogs);
 }
 
-@override@JsonKey() final  bool isSettingSuccess;
+@override final  bool isSettingSuccess;
 
 /// Create a copy of SettingState
 /// with the given fields replaced by the non-null parameter values.

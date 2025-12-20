@@ -30,4 +30,12 @@ class DetailUseCase {
   ) async {
     return repository.updateComment(idComment, content, postId);
   }
+
+  Future<bool> followUser(String userId, bool isFollow) async {
+    return repository.followOrUnFollowUser(userId, isFollow);
+  }
+
+  Future<bool> isFollowThisAuthor(String userId) async {
+    return repository.checkFollowAuthor(userId);
+  }
 }

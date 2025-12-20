@@ -27,8 +27,6 @@ class DetailRepositoryImpl implements DetailRepository {
         ),
       );
 
-      print(response.data);
-
       final isUpvoted = response.data['data']['isUpvoted'];
       final totalUpvoted = response.data['data']['totalUpvotes'];
       final entity = UpVoteEntity(
@@ -37,7 +35,6 @@ class DetailRepositoryImpl implements DetailRepository {
       );
       return entity;
     } catch (e) {
-      print('==> Error to upVote: $e');
       return UpVoteEntity(isUpVoted: true, totalVote: 0);
     }
   }
@@ -58,10 +55,8 @@ class DetailRepositoryImpl implements DetailRepository {
           },
         ),
       );
-
-      print(response.data);
     } catch (e) {
-      print('==> Error to comment: $e');
+      throw Exception('==> Error to comment: $e');
     }
   }
 
@@ -82,7 +77,6 @@ class DetailRepositoryImpl implements DetailRepository {
 
       return comments;
     } catch (e) {
-      print('==> Error to get comments: $e');
       return [];
     }
   }
@@ -106,22 +100,23 @@ class DetailRepositoryImpl implements DetailRepository {
 
       return true;
     } catch (e) {
-      print('==> Error to delete comment: $e');
       return false;
     }
   }
 
   @override
-  Future<bool> updateComment(String idComment, String content, String postId) async {
+  Future<bool> updateComment(
+    String idComment,
+    String content,
+    String postId,
+  ) async {
     final url = "${Env.baseUrl}${ApiConstants.comment}/$idComment";
     final token = await TokenStorage.getAccessToken();
 
     try {
       await dio.patch(
         url,
-        data: {
-          "content": content,
-        },
+        data: {"content": content},
         queryParameters: {"id": idComment},
         options: Options(
           headers: {
@@ -133,8 +128,56 @@ class DetailRepositoryImpl implements DetailRepository {
 
       return true;
     } catch (e) {
-      print('==> Error to update comment: $e');
       return false;
+    }
+  }
+
+  @override
+  Future<bool> followOrUnFollowUser(String userIdFollow, bool isFollow) async {
+    final url =
+        "${Env.baseUrl}${ApiConstants.user}/$userIdFollow${ApiConstants.follow}";
+    final token = await TokenStorage.getAccessToken();
+
+    try {
+      final response = await dio.request(
+        url,
+        queryParameters: {"id": userIdFollow},
+        options: Options(
+          method: isFollow ? 'POST' : 'DELETE',
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      return response.data['data']['isFollowing'];
+    } catch (e) {
+      throw Exception('Error to Follow: $e');
+    }
+  }
+
+  @override
+  Future<bool> checkFollowAuthor(String idUser) async {
+    final url = '${Env.baseUrl}${ApiConstants.user}/$idUser';
+    final token = await TokenStorage.getAccessToken();
+
+    try {
+      final response = await dio.get(
+        url,
+        queryParameters: {"id": idUser},
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      print('==> Following: ${response.data['data']['isFollowing']}');
+      return response.data['data']['isFollowing'];
+    } catch (e) {
+      throw Exception('=> Error to follow: $e');
     }
   }
 }

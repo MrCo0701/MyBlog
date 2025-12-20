@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_blog/core/utils/date_fomartter.dart';
-import 'package:my_blog/features/detail/presentation/cubits/detail_cubit.dart';
-import 'package:my_blog/features/detail/presentation/cubits/detail_state.dart';
+import 'package:my_blog/features/detail/presentation/cubits/detail/detail_cubit.dart';
+import 'package:my_blog/features/detail/presentation/cubits/detail/detail_state.dart';
 import 'package:my_blog/features/detail/presentation/di/detail_di.dart';
 import 'package:my_blog/features/home/domain/entity/blog_entity.dart';
 import 'package:my_blog/features/home/presentation/pages/tag_screen.dart';

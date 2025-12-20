@@ -46,7 +46,6 @@ class SettingRepositoryImpl implements SettingRepository {
     final token = await TokenStorage.getAccessToken();
 
     if (file == null) {
-      print('File is null');
       return '';
     } else {
       try {

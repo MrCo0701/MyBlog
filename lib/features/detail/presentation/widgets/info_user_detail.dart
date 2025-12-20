@@ -7,10 +7,12 @@ class InformationUserDetail extends StatelessWidget {
   const InformationUserDetail({
     super.key,
     required this.blog,
+    required this.isFollowing,
     required this.followAction,
   });
 
   final BlogEntity blog;
+  final bool isFollowing;
   final VoidCallback followAction;
 
   @override
@@ -41,7 +43,9 @@ class InformationUserDetail extends StatelessWidget {
         ElevatedButton(
           onPressed: followAction,
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
+            backgroundColor: isFollowing
+                ? Colors.blueAccent.shade700
+                : Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(7),
               side: BorderSide(color: Colors.blueAccent, width: 2),
@@ -51,12 +55,16 @@ class InformationUserDetail extends StatelessWidget {
             children: [
               Icon(
                 Iconsax.user_cirlce_add_copy,
-                color: Colors.blueAccent.shade700,
+                color: isFollowing ? Colors.white : Colors.blueAccent.shade700,
               ),
               SizedBox(width: 10),
               Text(
-                'Follow',
-                style: TextStyle(color: Colors.blueAccent.shade700),
+                isFollowing ? 'UnFollow' : 'Follow',
+                style: TextStyle(
+                  color: isFollowing
+                      ? Colors.white
+                      : Colors.blueAccent.shade700,
+                ),
               ),
             ],
           ),

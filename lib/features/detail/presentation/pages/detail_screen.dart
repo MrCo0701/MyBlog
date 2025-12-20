@@ -5,9 +5,12 @@ import 'package:my_blog/app/widgets/custom_snack_bar.dart';
 import 'package:my_blog/core/utils/date_fomartter.dart';
 import 'package:my_blog/core/utils/delta_converter.dart';
 import 'package:my_blog/features/detail/data/repository/detail_repositoy_impl.dart';
-import 'package:my_blog/features/detail/presentation/cubits/detail_cubit.dart';
-import 'package:my_blog/features/detail/presentation/cubits/detail_state.dart';
+import 'package:my_blog/features/detail/presentation/cubits/detail/detail_cubit.dart';
+import 'package:my_blog/features/detail/presentation/cubits/detail/detail_state.dart';
+import 'package:my_blog/features/detail/presentation/cubits/follow/follow_cubit.dart';
+import 'package:my_blog/features/detail/presentation/cubits/follow/follow_state.dart';
 import 'package:my_blog/features/detail/presentation/di/detail_di.dart';
+import 'package:my_blog/features/detail/presentation/di/following_di.dart';
 import 'package:my_blog/features/detail/presentation/widgets/dia_log_delete_comment.dart';
 import 'package:my_blog/features/detail/presentation/widgets/information_detail.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -68,7 +71,21 @@ class DetailScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
 
-                  InformationUserDetail(blog: blog, followAction: () {}),
+                  BlocProvider(
+                    create: (_) =>
+                        followProvider()..checkFollowAuthor(blog.author.id),
+                    child: BlocBuilder<FollowCubit, FollowState>(
+                      builder: (context, state) {
+                        return InformationUserDetail(
+                          blog: blog,
+                          followAction: () => context
+                              .read<FollowCubit>()
+                              .followUser(blog.author.id, !state.isFollowing),
+                          isFollowing: state.isFollowing,
+                        );
+                      },
+                    ),
+                  ),
                   SizedBox(height: 20),
 
                   InformationBlogDetail(

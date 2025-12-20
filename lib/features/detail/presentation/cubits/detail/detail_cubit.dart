@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_blog/features/detail/domain/use_case/detail_use_case.dart';
-import 'package:my_blog/features/detail/presentation/cubits/detail_state.dart';
+import 'package:my_blog/features/detail/presentation/cubits/detail/detail_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailCubit extends Cubit<DetailState> {

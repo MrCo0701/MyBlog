@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../domain/entity/comment_entity.dart';
+import '../../../domain/entity/comment_entity.dart';
 
 part 'detail_state.freezed.dart';
 

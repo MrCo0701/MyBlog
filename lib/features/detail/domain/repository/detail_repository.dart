@@ -11,4 +11,8 @@ abstract class DetailRepository {
   Future<bool> deleteComment(String idComment);
 
   Future<bool> updateComment(String idComment, String content, String postId);
+
+  Future<bool> followOrUnFollowUser(String userIdFollow, bool isFollow);
+
+  Future<bool> checkFollowAuthor(String idUser);
 }
