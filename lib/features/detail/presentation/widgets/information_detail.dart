@@ -3,8 +3,8 @@ import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 import '../../../../app/widgets/icon_text.dart';
 
-class InformationDetail extends StatelessWidget {
-  const InformationDetail({
+class InformationBlogDetail extends StatelessWidget {
+  const InformationBlogDetail({
     super.key,
     required this.time,
     required this.views,

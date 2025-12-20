@@ -51,10 +51,7 @@ class SearchScreen extends StatelessWidget {
                   ),
                   child: IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: Icon(
-                      Icons.arrow_back_outlined,
-                      color: Colors.white,
-                    ),
+                    icon: Icon(Icons.arrow_back_outlined, color: Colors.white),
                   ),
                 ),
                 SizedBox(width: 10),
@@ -79,7 +76,7 @@ class SearchScreen extends StatelessWidget {
                   children: state.allBlogs.map((blog) {
                     return PostCard(
                       blog: blog,
-                      image: 'assets/fake_data/image_1.png',
+                      image: blog.author.avatarUrl ?? '',
                       onPressMore: () {
                         Navigator.push(
                           context,

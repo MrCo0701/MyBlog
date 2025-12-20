@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_blog/core/utils/date_fomartter.dart';
 import 'package:my_blog/features/detail/presentation/cubits/detail_cubit.dart';
 import 'package:my_blog/features/detail/presentation/cubits/detail_state.dart';
 import 'package:my_blog/features/detail/presentation/di/detail_di.dart';
@@ -45,7 +46,12 @@ class PostCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                CircleAvatar(radius: 20, backgroundImage: AssetImage(image)),
+                CircleAvatar(
+                  radius: 20,
+                  backgroundImage: image == ''
+                      ? AssetImage('assets/fake_data/user_image.png')
+                      : NetworkImage(image),
+                ),
                 const SizedBox(width: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +64,7 @@ class PostCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      blog.createdAt.toString(),
+                      DateFormatter.formatDate(blog.createdAt.toString()),
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 13,
@@ -136,6 +142,7 @@ class PostCard extends StatelessWidget {
               child: BlocBuilder<DetailCubit, DetailState>(
                 builder: (context, state) {
                   return FooterCard(
+                    upVote: blog.totalUpvotes,
                     viewCount: blog.viewCount,
                     commentCount: state.listComments.length,
                     readCount: blog.readTime,

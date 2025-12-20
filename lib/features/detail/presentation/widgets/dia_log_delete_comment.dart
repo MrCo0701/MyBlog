@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 void showDeleteCommentDialog(
   BuildContext context, {
   required VoidCallback onConfirm,
+  required String title,
+  required String description,
 }) {
   showDialog(
     context: context,
@@ -20,12 +22,12 @@ void showDeleteCommentDialog(
               color: Colors.redAccent,
             ),
             const SizedBox(height: 12),
-            const Text(
-              "Confirm Deletion",
+             Text(
+              title,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               "Are you sure you want to delete this comment?",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14, color: Colors.black54),
@@ -61,7 +63,7 @@ void showDeleteCommentDialog(
                       onConfirm();
                     },
                     child: const Text(
-                      "Delete",
+                      "Confirm",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

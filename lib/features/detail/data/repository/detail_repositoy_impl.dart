@@ -93,7 +93,7 @@ class DetailRepositoryImpl implements DetailRepository {
     final token = await TokenStorage.getAccessToken();
 
     try {
-      final response = await dio.delete(
+      await dio.delete(
         url,
         queryParameters: {"id": idComment},
         options: Options(
@@ -117,7 +117,7 @@ class DetailRepositoryImpl implements DetailRepository {
     final token = await TokenStorage.getAccessToken();
 
     try {
-      final response = await dio.patch(
+      await dio.patch(
         url,
         data: {
           "content": content,

@@ -7,9 +7,11 @@ class FooterCard extends StatelessWidget {
     required this.viewCount,
     required this.commentCount,
     required this.readCount,
+    required this.upVote,
   });
 
   final int viewCount;
+  final int upVote;
   final int commentCount;
   final int readCount;
 
@@ -38,10 +40,10 @@ class FooterCard extends StatelessWidget {
           ),
           Row(
             children: [
-              Icon(Iconsax.arrow_square_copy, color: Colors.grey.shade600),
+              Icon(Iconsax.arrow_up_1_copy, color: Colors.grey.shade600),
               SizedBox(width: 10),
               Text(
-                '0',
+                upVote.toString(),
                 style: TextStyle(
                   color: Colors.grey.shade600,
                   fontWeight: FontWeight.bold,

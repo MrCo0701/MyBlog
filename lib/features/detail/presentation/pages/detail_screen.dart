@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:my_blog/app/widgets/custom_snack_bar.dart';
+import 'package:my_blog/core/utils/date_fomartter.dart';
 import 'package:my_blog/core/utils/delta_converter.dart';
 import 'package:my_blog/features/detail/data/repository/detail_repositoy_impl.dart';
 import 'package:my_blog/features/detail/presentation/cubits/detail_cubit.dart';
@@ -12,10 +12,10 @@ import 'package:my_blog/features/detail/presentation/widgets/dia_log_delete_comm
 import 'package:my_blog/features/detail/presentation/widgets/information_detail.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:my_blog/features/home/domain/entity/blog_entity.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/comment_item.dart';
 import '../widgets/comment_text_field.dart';
+import '../widgets/info_user_detail.dart';
 import '../widgets/up_vote.dart';
 import '../widgets/update_comment_dialog.dart';
 
@@ -68,62 +68,11 @@ class DetailScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //* Avatar and name
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: AssetImage(
-                              'assets/fake_data/image_1.png',
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            blog.author.fullName,
-                            style: TextStyle(
-                              color: Colors.blueAccent.shade700,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      //* Follow button
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(7),
-                            side: BorderSide(
-                              color: Colors.blueAccent,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Iconsax.user_cirlce_add_copy,
-                              color: Colors.blueAccent.shade700,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'Follow',
-                              style: TextStyle(
-                                color: Colors.blueAccent.shade700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  InformationUserDetail(blog: blog, followAction: () {}),
                   SizedBox(height: 20),
-                  InformationDetail(
-                    time: formatDate(blog.createdAt.toString()),
+
+                  InformationBlogDetail(
+                    time: DateFormatter.formatDate(blog.createdAt.toString()),
                     views: blog.viewCount,
                     timeRead: blog.readTime,
                   ),
@@ -251,6 +200,9 @@ class DetailScreen extends StatelessWidget {
                                                             'Delete Success',
                                                           );
                                                         },
+                                                        title: 'Delete Comment',
+                                                        description:
+                                                            "Are you sure you want to delete this comment?",
                                                       ),
                                                   onEdit: () {
                                                     showUpdateCommentDialog(
@@ -301,10 +253,4 @@ class DetailScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-String formatDate(String isoString) {
-  final dateTime = DateTime.parse(isoString).toLocal();
-
-  return DateFormat('dd MMM yyyy').format(dateTime);
 }

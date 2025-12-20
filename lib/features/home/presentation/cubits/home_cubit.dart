@@ -27,6 +27,11 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeState(allBlogs: newListBlogs));
   }
 
+  Future<void> showTrendingBlog() async {
+    final newListBlogs = await useCase.getTrendingBlogs();
+    emit(HomeState(allBlogs: newListBlogs));
+  }
+
   Future<void> searchBlog(String titleSearch) async {
     final newListBlogs = await useCase.searchBlog(titleSearch);
     emit(HomeState(allBlogs: newListBlogs));
@@ -36,4 +41,6 @@ class HomeCubit extends Cubit<HomeState> {
     final newListBlogs = await useCase.searchBlogByTag(tagLug);
     emit(HomeState(allBlogs: newListBlogs));
   }
+
+
 }

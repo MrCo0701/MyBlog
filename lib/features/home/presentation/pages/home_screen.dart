@@ -37,60 +37,96 @@ class _HomeScreen extends State<HomeScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 12),
-          TabBar(
-            controller: _tabController,
-            labelPadding: EdgeInsets.only(right: 20),
-            indicatorPadding: EdgeInsets.zero,
-            isScrollable: true,
-            indicatorColor: Colors.blue,
-            labelColor: Colors.blue,
-            unselectedLabelColor: Colors.grey.shade600,
-            labelStyle: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
+          PreferredSize(
+            preferredSize: const Size.fromHeight(48),
+            child: Container(
+              color: Colors.white,
+              child: TabBar(
+                controller: _tabController,
+                labelPadding: EdgeInsets.only(right: 20),
+                indicatorPadding: EdgeInsets.zero,
+                isScrollable: true,
+                indicatorColor: Colors.blue,
+                labelColor: Colors.blue,
+                unselectedLabelColor: Colors.grey.shade600,
+                labelStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+                tabs: tabs.map((t) => Tab(text: t)).toList(),
+              ),
             ),
-            tabs: tabs.map((t) => Tab(text: t)).toList(),
           ),
 
           const SizedBox(height: 10),
 
           Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: tabs.map((t) {
-                return BlocProvider(
-                  create: (_) => homeProvider()..showAllBlog(),
-                  child: SingleChildScrollView(
-                    child: BlocBuilder<HomeCubit, HomeState>(
-                      builder: (context, state) {
-                        return Column(
-                          spacing: 5,
-                          children: state.allBlogs.map((blog) {
-                            return PostCard(
-                              blog: blog,
-                              image: 'assets/fake_data/image_1.png',
-                              onPressMore: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => WritingScreen(),
-                                  ),
-                                );
-                              },
-                              onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => DetailScreen(blog: blog),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        );
-                      },
+            child: Stack(
+              children: [
+                Center(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: tabs.map((t) {
+                      return BlocProvider(
+                        create: (_) {
+                          if (t == 'Newest') {
+                            return homeProvider()..showAllBlog();
+                          } else {
+                            return homeProvider()..showTrendingBlog();
+                          }
+                        },
+                        child: SingleChildScrollView(
+                          child: BlocBuilder<HomeCubit, HomeState>(
+                            builder: (context, state) {
+                              return Column(
+                                spacing: 5,
+                                children: state.allBlogs.map((blog) {
+                                  return PostCard(
+                                    blog: blog,
+                                    image: blog.author.avatarUrl ?? '',
+                                    onPressMore: () {},
+                                    onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            DetailScreen(blog: blog),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+
+                Positioned(
+                  bottom: 100,
+                  right: 20,
+                  child: GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => WritingScreen()),
+                    ),
+                    child: Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.blueAccent,
+                      ),
+                      child: Icon(
+                        Iconsax.edit_2,
+                        color: Colors.white,
+                        size: 30,
+                      ),
                     ),
                   ),
-                );
-              }).toList(),
+                ),
+              ],
             ),
           ),
         ],

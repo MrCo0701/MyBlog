@@ -17,4 +17,8 @@ class HomeUseCase {
   Future<List<BlogEntity>> searchBlogByTag(String tagLug) async {
     return repository.searchBlogByTag(tagLug);
   }
+
+  Future<List<BlogEntity>> getTrendingBlogs() async {
+    return repository.showTrendingBlogs();
+  }
 }
