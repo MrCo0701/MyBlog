@@ -8,4 +8,6 @@ abstract class HomeRepository {
   Future<List<BlogEntity>> searchBlogByTag(String titleSearch);
 
   Future<List<BlogEntity>> showTrendingBlogs();
+
+  // Future<BlogEntity> getBlogById(String id);
 }

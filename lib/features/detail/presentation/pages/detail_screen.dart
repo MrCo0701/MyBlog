@@ -77,7 +77,7 @@ class DetailScreen extends StatelessWidget {
                     child: BlocBuilder<FollowCubit, FollowState>(
                       builder: (context, state) {
                         return InformationUserDetail(
-                          blog: blog,
+                          author: blog.author,
                           followAction: () => context
                               .read<FollowCubit>()
                               .followUser(blog.author.id, !state.isFollowing),

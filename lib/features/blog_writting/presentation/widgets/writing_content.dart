@@ -6,11 +6,13 @@ class WritingContent extends StatelessWidget {
     required this.controller,
     required this.title,
     required this.hintText,
+    this.maxLine,
   });
 
   final TextEditingController controller;
   final String title;
   final String hintText;
+  final int? maxLine;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class WritingContent extends StatelessWidget {
               return AnimatedContainer(
                 duration: Duration(seconds: 0),
                 child: TextField(
+                  maxLines: maxLine ?? 1,
                   controller: controller,
                   decoration: InputDecoration(
                     filled: true,

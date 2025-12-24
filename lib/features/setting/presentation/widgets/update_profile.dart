@@ -104,21 +104,21 @@ Future<void> showUpdateProfileDialog(
                             onPressed: () {
                               context.read<SettingCubit>().changeUserInfo(
                                 state.fileImage,
-                                state.userInfo.fullName,
+                                nameController.text,
                               );
 
                               //! Bug Here
-                              if (state.isSettingSuccess) {
-                                AppSnackBar.success(
-                                  context,
-                                  'Change Info of User Success',
-                                );
-                              } else {
-                                AppSnackBar.error(
-                                  context,
-                                  'Change Info of User Fail',
-                                );
-                              }
+                              // if (state.isSettingSuccess) {
+                              //   AppSnackBar.success(
+                              //     context,
+                              //     'Change Info of User Success',
+                              //   );
+                              // } else {
+                              //   AppSnackBar.error(
+                              //     context,
+                              //     'Change Info of User Fail',
+                              //   );
+                              // }
 
                               Navigator.pop(context);
                             },

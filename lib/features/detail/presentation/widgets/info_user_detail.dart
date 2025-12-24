@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:my_blog/features/home/domain/entity/author_entity.dart';
 
 import '../../../home/domain/entity/blog_entity.dart';
 
 class InformationUserDetail extends StatelessWidget {
   const InformationUserDetail({
     super.key,
-    required this.blog,
+    required this.author,
     required this.isFollowing,
     required this.followAction,
   });
 
-  final BlogEntity blog;
+  final AuthorEntity author;
   final bool isFollowing;
   final VoidCallback followAction;
 
@@ -24,13 +25,13 @@ class InformationUserDetail extends StatelessWidget {
         Row(
           children: [
             CircleAvatar(
-              backgroundImage: blog.author.avatarUrl != null
-                  ? NetworkImage(blog.author.avatarUrl!)
+              backgroundImage: author.avatarUrl != null
+                  ? NetworkImage(author.avatarUrl!)
                   : AssetImage('assets/fake_data/user_image.png'),
             ),
             SizedBox(width: 10),
             Text(
-              blog.author.fullName,
+              author.fullName,
               style: TextStyle(
                 color: Colors.blueAccent.shade700,
                 fontWeight: FontWeight.bold,

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -345,7 +344,7 @@ class WritingScreen extends StatelessWidget {
                                       content: content,
                                       description: 'something',
                                       thumbnail:
-                                          'https://example.com/images/clean-arch-banner.jpg',
+                                          'https://duyhao.com/images/clean-arch-banner.jpg',
                                       seriesId: 0,
                                       published: true,
                                       readTime: 5,

@@ -8,12 +8,14 @@ class InformationBlogDetail extends StatelessWidget {
     super.key,
     required this.time,
     required this.views,
-    required this.timeRead,
+    this.timeRead,
+    this.countOfPosts,
   });
 
   final String time;
   final int views;
-  final int timeRead;
+  final int? timeRead;
+  final int? countOfPosts;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,12 @@ class InformationBlogDetail extends StatelessWidget {
               width: 1.5,
             ),
 
-            IconText(icon: Iconsax.clock_copy, text: '$timeRead min read'),
+            timeRead != null
+                ? IconText(icon: Iconsax.clock_copy, text: '$timeRead min read')
+                : IconText(
+                    icon: Iconsax.book_1_copy,
+                    text: '$countOfPosts posts',
+                  ),
           ],
         ),
       ),

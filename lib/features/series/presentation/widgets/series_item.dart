@@ -7,19 +7,20 @@ import 'package:my_blog/features/detail/presentation/di/detail_di.dart';
 import 'package:my_blog/features/home/domain/entity/blog_entity.dart';
 import 'package:my_blog/features/home/presentation/pages/tag_screen.dart';
 import 'package:my_blog/features/home/presentation/widgets/footer_card.dart';
+import 'package:my_blog/features/series/data/models/series_with_count/seri_with_count_model.dart';
 
 import '../../../../core/utils/delta_converter.dart';
 
-class PostCard extends StatelessWidget {
-  final BlogEntity blog;
+class SeriesItem extends StatelessWidget {
+  final SeriesWithCountModel seri;
   final String image;
   final VoidCallback onPressMore;
   final VoidCallback onPressed;
   final IconData? iconSelected;
 
-  const PostCard({
+  const SeriesItem({
     super.key,
-    required this.blog,
+    required this.seri,
     this.iconSelected,
     required this.image,
     required this.onPressMore,
@@ -59,14 +60,14 @@ class PostCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      blog.author.fullName,
+                      seri.author.fullName,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                       ),
                     ),
                     Text(
-                      DateFormatter.formatDate(blog.createdAt.toString()),
+                      DateFormatter.formatDate(seri.createdAt.toString()),
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 13,
@@ -92,72 +93,18 @@ class PostCard extends StatelessWidget {
 
             // Title
             Text(
-              blog.title,
+              seri.title,
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 8),
 
-            // Description
-            deltaToPlainText(blog.content) != ''
-                ? Text(
-                    deltaToPlainText(blog.content),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.grey.shade700, height: 1.3),
-                  )
-                : SizedBox(),
+            Text(
+              '${seri.count.posts} posts in this series',
+              style: TextStyle(color: Colors.grey.shade700, height: 1.3),
+            ),
 
             const SizedBox(height: 10),
-
-            // Tags
-            Wrap(
-              spacing: 8,
-              children: blog.tags.map((t) {
-                return GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => TagScreen(tag: t.slug)),
-                  ),
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 3),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEDE7FF),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      t.name,
-                      style: const TextStyle(
-                        color: Color(0xFF7C4DFF),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-
-            const SizedBox(height: 12),
-
-            // footer icons
-            BlocProvider(
-              create: (_) => detailProvider()..getAllComments(blog.id),
-              child: BlocBuilder<DetailCubit, DetailState>(
-                builder: (context, state) {
-                  return FooterCard(
-                    upVote: blog.totalUpvotes,
-                    viewCount: blog.viewCount,
-                    commentCount: state.listComments.length,
-                    readCount: blog.readTime,
-                  );
-                },
-              ),
-            ),
           ],
         ),
       ),

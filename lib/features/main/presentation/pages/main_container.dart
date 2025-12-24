@@ -7,6 +7,9 @@ import 'package:my_blog/features/home/presentation/pages/home_screen.dart';
 import 'package:my_blog/features/home/presentation/pages/search_screen.dart';
 import 'package:my_blog/features/main/presentation/cubit/navigation_cubit.dart';
 import 'package:my_blog/features/main/presentation/cubit/navigation_state.dart';
+import 'package:my_blog/features/series/data/repository/seri_repository_impl.dart';
+import 'package:my_blog/features/series/presentation/pages/create_series_screen.dart';
+import 'package:my_blog/features/series/presentation/pages/series_screen.dart';
 import 'package:my_blog/features/setting/presentation/pages/setting_screen.dart';
 
 class MainContainer extends StatelessWidget {
@@ -21,17 +24,25 @@ class MainContainer extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.white,
-              leading: Container(
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/logo/logoB.png'),
-                    fit: BoxFit.cover,
+              leading: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => AddSeriesScreen()),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/logo/logoB.png'),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  borderRadius: BorderRadius.circular(10),
+                  height: 70,
+                  width: 70,
                 ),
-                height: 70,
-                width: 70,
               ),
               actions: [
                 Padding(
@@ -60,10 +71,12 @@ class MainContainer extends StatelessWidget {
                           Iconsax.setting_2_copy,
                           fontWeight: FontWeight.bold,
                         ),
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => ProfilePage()),
-                        ),
+                        onPressed: () {},
+
+                        //     Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (_) => ProfilePage()),
+                        // ),
                       ),
                     ],
                   ),
@@ -71,7 +84,7 @@ class MainContainer extends StatelessWidget {
               ],
             ),
             body: _buildBody(state),
-            // bottomNavigationBar: _buildBottomNavigation(context, state),
+            bottomNavigationBar: _buildBottomNavigation(context, state),
           );
         },
       ),
@@ -81,6 +94,10 @@ class MainContainer extends StatelessWidget {
   Widget _buildBody(NavigationState state) {
     if (state.index == 0) {
       return HomeScreen();
+    } else if (state.index == 2) {
+      return SeriesScreen();
+    } else if (state.index == 3) {
+      return ProfilePage();
     }
     return HomeScreen();
   }
