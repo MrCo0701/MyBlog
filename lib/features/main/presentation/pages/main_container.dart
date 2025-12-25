@@ -10,6 +10,7 @@ import 'package:my_blog/features/main/presentation/cubit/navigation_state.dart';
 import 'package:my_blog/features/series/data/repository/seri_repository_impl.dart';
 import 'package:my_blog/features/series/presentation/pages/create_series_screen.dart';
 import 'package:my_blog/features/series/presentation/pages/series_screen.dart';
+import 'package:my_blog/features/setting/presentation/pages/option_setting_screen.dart';
 import 'package:my_blog/features/setting/presentation/pages/setting_screen.dart';
 
 class MainContainer extends StatelessWidget {
@@ -25,12 +26,7 @@ class MainContainer extends StatelessWidget {
             appBar: AppBar(
               backgroundColor: Colors.white,
               leading: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => AddSeriesScreen()),
-                  );
-                },
+                onTap: () {},
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
@@ -68,15 +64,13 @@ class MainContainer extends StatelessWidget {
                       ),
                       IconButton(
                         icon: Icon(
-                          Iconsax.setting_2_copy,
+                          Iconsax.gallery_add_copy,
                           fontWeight: FontWeight.bold,
                         ),
-                        onPressed: () {},
-
-                        //     Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (_) => ProfilePage()),
-                        // ),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => AddSeriesScreen()),
+                        ),
                       ),
                     ],
                   ),
@@ -94,10 +88,10 @@ class MainContainer extends StatelessWidget {
   Widget _buildBody(NavigationState state) {
     if (state.index == 0) {
       return HomeScreen();
-    } else if (state.index == 2) {
+    } else if (state.index == 1) {
       return SeriesScreen();
-    } else if (state.index == 3) {
-      return ProfilePage();
+    } else if (state.index == 2) {
+      return OptionSettingScreen();
     }
     return HomeScreen();
   }
@@ -119,10 +113,10 @@ class MainContainer extends StatelessWidget {
           icon: FaIcon(FontAwesomeIcons.bookOpen),
           label: 'Posts',
         ),
-        BottomNavigationBarItem(
-          icon: FaIcon(FontAwesomeIcons.circleQuestion),
-          label: 'Question',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: FaIcon(FontAwesomeIcons.circleQuestion),
+        //   label: 'Question',
+        // ),
         BottomNavigationBarItem(icon: Icon(Iconsax.gallery), label: 'Series'),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.userCircle),

@@ -11,8 +11,24 @@ import '../../../detail/presentation/widgets/dia_log_delete_comment.dart';
 import '../../../home/presentation/widgets/post_card.dart';
 import '../widgets/update_profile.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  final tabs = ["Posts", "Series"];
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: tabs.length, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,16 +96,19 @@ class ProfilePage extends StatelessWidget {
                     //   child: Container(
                     //     color: Colors.white,
                     //     child: TabBar(
-                    //       controller: _tab,
-                    //       labelColor: Colors.blue,
-                    //       unselectedLabelColor: Colors.grey,
+                    //       controller: _tabController,
+                    //       labelPadding: EdgeInsets.only(right: 20),
+                    //       indicatorPadding: EdgeInsets.zero,
+                    //       isScrollable: false,
+                    //       indicatorSize: TabBarIndicatorSize.tab,
                     //       indicatorColor: Colors.blue,
-                    //       tabs: const [
-                    //         Tab(text: 'Posts'),
-                    //         Tab(text: 'Series'),
-                    //         Tab(text: 'Question'),
-                    //         Tab(text: 'Answers'),
-                    //       ],
+                    //       labelColor: Colors.blue,
+                    //       unselectedLabelColor: Colors.grey.shade600,
+                    //       labelStyle: const TextStyle(
+                    //         fontWeight: FontWeight.bold,
+                    //         fontSize: 16,
+                    //       ),
+                    //       tabs: tabs.map((t) => Tab(text: t)).toList(),
                     //     ),
                     //   ),
                     // ),

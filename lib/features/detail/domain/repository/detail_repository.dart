@@ -15,4 +15,5 @@ abstract class DetailRepository {
   Future<bool> followOrUnFollowUser(String userIdFollow, bool isFollow);
 
   Future<bool> checkFollowAuthor(String idUser);
+
 }

@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:my_blog/app/widgets/custom_snack_bar.dart';
 import 'package:my_blog/core/utils/date_fomartter.dart';
 import 'package:my_blog/core/utils/delta_converter.dart';
+import 'package:my_blog/features/authentication/presentation/widgets/button_login_custom.dart';
 import 'package:my_blog/features/detail/data/repository/detail_repositoy_impl.dart';
 import 'package:my_blog/features/detail/presentation/cubits/detail/detail_cubit.dart';
 import 'package:my_blog/features/detail/presentation/cubits/detail/detail_state.dart';
 import 'package:my_blog/features/detail/presentation/cubits/follow/follow_cubit.dart';
 import 'package:my_blog/features/detail/presentation/cubits/follow/follow_state.dart';
+import 'package:my_blog/features/detail/presentation/cubits/summarize_blog/summarize_blog_cubit.dart';
+import 'package:my_blog/features/detail/presentation/cubits/summarize_blog/summarize_blog_state.dart';
 import 'package:my_blog/features/detail/presentation/di/detail_di.dart';
 import 'package:my_blog/features/detail/presentation/di/following_di.dart';
+import 'package:my_blog/features/detail/presentation/di/summarize_di.dart';
 import 'package:my_blog/features/detail/presentation/widgets/dia_log_delete_comment.dart';
 import 'package:my_blog/features/detail/presentation/widgets/information_detail.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -104,11 +109,40 @@ class DetailScreen extends StatelessWidget {
               ),
 
               SizedBox(height: 20),
-              //*Quill
-              QuillEditor.basic(
-                controller: controller,
-                focusNode: FocusNode(),
-                scrollController: ScrollController(),
+              BlocProvider(
+                create: (_) => summarizeProvider(),
+                child: BlocBuilder<SummarizeBlogCubit, SummarizeBlogState>(
+                  builder: (innerContext, state) {
+                    return Column(
+                      spacing: 20,
+                      children: [
+                        //*Quill
+                        state.isLoading
+                            ? Lottie.asset(
+                                'assets/animation/loading_animation.json',
+                              )
+                            : state.content == ''
+                            ? QuillEditor.basic(
+                                controller: controller,
+                                focusNode: FocusNode(),
+                                scrollController: ScrollController(),
+                              )
+                            : Text(state.content),
+
+                        ButtonLoginCustom(
+                          text: state.isSummarize
+                              ? 'View Original'
+                              : 'summarized',
+                          onPress: () => innerContext
+                              .read<SummarizeBlogCubit>()
+                              .summarizeBlog(
+                                deltaToDocument(blog.content).toPlainText(),
+                              ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
 
               SizedBox(height: 20),
@@ -142,6 +176,8 @@ class DetailScreen extends StatelessWidget {
                   ),
 
                   SizedBox(height: 20),
+
+                  // * COMMENT
                   BlocProvider(
                     create: (_) => detailProvider()
                       ..isUpVote(blog.id)

@@ -126,7 +126,10 @@ class AddSeriesScreen extends StatelessWidget {
                           },
                         ),
                       ),
-                      icon: Icon(Iconsax.document_upload),
+                      icon: Icon(
+                        Iconsax.document_upload,
+                        color: Colors.blueAccent,
+                      ),
                     );
                   },
                 ),
@@ -164,7 +167,6 @@ class AddSeriesScreen extends StatelessWidget {
                           color: Colors.blue,
                           strokeWidth: 1.5,
                           dashPattern: const [6, 4],
-                          // nét đứt đẹp
                           borderType: BorderType.RRect,
                           radius: const Radius.circular(12),
                           child: Container(

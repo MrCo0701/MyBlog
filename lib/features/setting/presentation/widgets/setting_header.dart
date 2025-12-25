@@ -50,7 +50,7 @@ class SettingHeader extends StatelessWidget {
                 value: userInfo.stats.postsCount.toString(),
               ),
               TagInfo(
-                label: 'add_series',
+                label: 'series',
                 value: userInfo.stats.seriesCount.toString(),
               ),
             ],
