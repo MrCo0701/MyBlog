@@ -9,4 +9,5 @@ class ApiConstants {
   static const follow = '/follow';
   static const user = '/users';
   static const series = '/series';
+  static const apiGemini = '/config/gemini';
 }

@@ -20,6 +20,9 @@ import 'package:my_blog/features/detail/presentation/widgets/dia_log_delete_comm
 import 'package:my_blog/features/detail/presentation/widgets/information_detail.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:my_blog/features/home/domain/entity/blog_entity.dart';
+import 'package:my_blog/features/setting/data/repository/setting_repository_impl.dart';
+import 'package:my_blog/features/setting/domain/entity/user_info_entity.dart';
+import 'package:my_blog/features/setting/domain/repository/setting_repository.dart';
 
 import '../widgets/comment_item.dart';
 import '../widgets/comment_text_field.dart';
